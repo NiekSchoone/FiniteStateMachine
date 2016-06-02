@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿//Created by: Niek Schoone
+
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-public class Names : MonoBehaviour
+public class Names
 {
     private string lineRead;
     private int lineNumber;
@@ -13,7 +13,7 @@ public class Names : MonoBehaviour
 
     public List<List<string>> nameList = new List<List<string>>();
 
-    void Awake()
+    void GetNames()
     {
         StreamReader reader = new StreamReader("Names.txt");
 
@@ -29,10 +29,4 @@ public class Names : MonoBehaviour
             nameList[i].RemoveAt(0);
         }
     }
-
-    /*public string GetName(int gender)
-    {
-        string newName = 
-        return newName;
-    }*/
 }

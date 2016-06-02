@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿//Created by: Niek Schoone
+
+using UnityEngine;
 using System.Collections.Generic;
 
 public enum GatheringType
@@ -52,7 +53,7 @@ public class Gathering : IFSM<Villager>
 
     public void Execute(Villager e)
     {
-        if ((e.movement.reachedPosition) && e.totalresourcesGathered < e.GatheringCap)
+        if ((e.movement.MovementCompleted) && e.totalresourcesGathered < e.GatheringCap)
         {
             GatherResource(e);
         }else if(e.resourceTable[resourceType] == e.GatheringCap)

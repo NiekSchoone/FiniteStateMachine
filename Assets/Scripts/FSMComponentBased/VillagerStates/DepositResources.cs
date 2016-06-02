@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿//Created by: Niek Schoone
+
+using UnityEngine;
 using System.Collections.Generic;
 
 public class DepositResources : IFSM<Villager>
@@ -30,10 +32,7 @@ public class DepositResources : IFSM<Villager>
 
     void DepositCarriedResources(Dictionary<ResourceType, int> resourceDelivery)
     {
-        foreach(int value in resourceDelivery.Values)
-        {
-
-        }
+        Debug.Log("I will deposit all the resources I am carrying.");
     }
 
 }

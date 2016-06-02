@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿//Created by: Niek Schoone
+
+using UnityEngine;
 using System.Collections;
 
 public class FiniteStateMachine<T>
