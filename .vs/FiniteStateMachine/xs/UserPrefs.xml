@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{EDFF679E-2F9A-C7A5-33CA-96882CD8C322}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/FSMComponentBased/VillagerStates/Gathering.cs">
+    <Files>
+      <File FileName="Assets/Scripts/FSMComponentBased/VillagerStates/Gathering.cs" Line="99" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
