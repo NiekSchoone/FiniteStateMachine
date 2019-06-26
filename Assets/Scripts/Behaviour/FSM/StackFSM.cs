@@ -1,13 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class StackFSM {
     public Stack<Action> stack;
 
     public StackFSM() {
-      stack = new Stack<Action>();
+        stack = new Stack<Action>();
     }
 
     public void PopState() {

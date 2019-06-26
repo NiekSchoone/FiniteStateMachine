@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpawnWheat : MonoBehaviour
+public class WheatField : MonoBehaviour
 {
     public GameObject wheatPrefab;
     private float _wheatAmount;
@@ -21,21 +21,22 @@ public class SpawnWheat : MonoBehaviour
         Vector3 center = transform.position;
         for (int i = 0; i < _wheatAmount; i++)
         {
-            GameObject wheat = Instantiate(wheatPrefab, RandomCircle(center, _radius), Quaternion.identity) as GameObject;
+            GameObject wheat = Instantiate(wheatPrefab, RandomCircle(_radius), Quaternion.identity) as GameObject;
             wheat.transform.parent = this.transform;
         }
     }
-    Vector3 RandomCircle(Vector3 center, float radius)
+    
+    Vector3 RandomCircle(float radius)
     {
         Vector3 pos;
 
-    float pt_angle = Random.value * 2 * Mathf.PI;
-    float pt_radius_sq = Random.value * radius * radius;
-    float pt_x = Mathf.Sqrt(pt_radius_sq) * Mathf.Cos(pt_angle);
-    float pt_y = Mathf.Sqrt(pt_radius_sq) * Mathf.Sin(pt_angle);
+        float pt_angle = Random.value * 2 * Mathf.PI;
+        float pt_radius_sq = Random.value * radius * radius;
+        float pt_x = Mathf.Sqrt(pt_radius_sq) * Mathf.Cos(pt_angle);
+        float pt_y = Mathf.Sqrt(pt_radius_sq) * Mathf.Sin(pt_angle);
 
-        pos.x = pt_x; //Mathf.Cos(Random.value) * radius;
-        pos.z = pt_y; //Mathf.Sin(Random.value) * radius;
+        pos.x = transform.position.x + pt_x;
+        pos.z = transform.position.z + pt_y;
         pos.y = transform.position.y;
         return pos;
     }
