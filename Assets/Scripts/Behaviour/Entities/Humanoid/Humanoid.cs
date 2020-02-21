@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Humanoid : MonoBehaviour
+public class Humanoid : MonoBehaviour, ISelectable
 {
+
   protected StackFSM brain;
   protected Transform target;
   public Animator anims;
 
   [SerializeField]
   protected float fatigue;
+  [SerializeField]
+  protected GameObject selectionMarker;
 
   protected virtual void Start()
   {    
@@ -22,8 +25,8 @@ public class Humanoid : MonoBehaviour
   {
     brain.Update();
     fatigue += Time.fixedDeltaTime;
-    if(fatigue >= 100) {
-        brain.PushState(Idle);
+    if (fatigue >= 100) {
+      brain.PushState(Idle);
     }
   }
 
@@ -32,7 +35,7 @@ public class Humanoid : MonoBehaviour
     fatigue -= Time.fixedDeltaTime * 2.5f;
 
     if(fatigue <= 0) {
-        brain.PopState();
+      brain.PopState();
     }
   }
 
@@ -63,5 +66,13 @@ public class Humanoid : MonoBehaviour
     {
       return false;
     }
+  }
+
+  public void OnSelect() {
+    selectionMarker.SetActive(true);
+  }
+
+  public void OnDeselect() {
+    selectionMarker.SetActive(false);
   }
 }

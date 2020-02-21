@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Resource : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int value;
+    public int maxValue;
+    public bool destroyOnEmpty;
+    
+    public void Harvest(int _amount) {
+        value -= _amount;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(destroyOnEmpty && value == 0) {
+            Destroy(this.gameObject);
+        }
     }
+     
 }

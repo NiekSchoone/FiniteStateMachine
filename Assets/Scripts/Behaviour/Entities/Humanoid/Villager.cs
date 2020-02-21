@@ -8,8 +8,10 @@ public class Villager : Humanoid
     public VillagerRole role;
     public ResourceType type;
 
-    public Transform targetResource;
-    public Transform storeHouse;
+    private Resource resource;
+
+    public GameObject targetResource;
+    public GameObject storeHouse;
 
     protected override void Start() {
         base.Start();
@@ -28,28 +30,35 @@ public class Villager : Humanoid
     }
 
     void GatherResource() {
-        target = targetResource;
-
+        target = targetResource.transform;
+        if(!resource){
+            resource = targetResource.GetComponent<Resource>();
+        }
         if(!InPosition()) {
             brain.PushState(Walk);
             return;
         }
-        resources[type] += 1;
-        Debug.Log("gathered: " + resources[type]);
+        resource.Harvest(1);
+        if(resource.value >= 0) {
+            resources[type] += 1;
+        }else {
+            brain.PushState(DepositResource);
+        }
+        // Debug.Log("gathered: " + resources[type]);
         if(resources[type] >= 750) {
             brain.PushState(DepositResource);
         }
     }
 
     void DepositResource() {
-        target = storeHouse;
+        target = storeHouse.transform;
 
         if(!InPosition()) {
             brain.PushState(Walk);
             return;
         }
         resources[type] = 0;
-        brain.PushState(GatherResource);
+        brain.PopState();
     }
 
     void SetRole(VillagerRole _role) {
@@ -73,11 +82,11 @@ public class Villager : Humanoid
         }
     }
 
-    Transform FindClosestResource(string _tag)
+    GameObject FindClosestResource(string _tag)
     {
         GameObject[] gos;
         gos = GameObject.FindGameObjectsWithTag(_tag);
-        Transform closest = null;
+        GameObject closest = null;
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
         foreach (GameObject go in gos)
@@ -86,7 +95,7 @@ public class Villager : Humanoid
             float curDistance = diff.sqrMagnitude;
             if (curDistance < distance)
             {
-                closest = go.transform;
+                closest = go;
                 distance = curDistance;
             }
         }
