@@ -1,29 +1,38 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
-public class SelectionManager : MonoBehaviour {
+public class SelectionManager : MonoBehaviour
+{
 
   private List<ISelectable> selectables;
 
-  void Start() {
+  public List<ISelectable> selected;
 
-    selectables = new List<ISelectable>();
-
-    var ss = FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>();
-    Debug.Log(ss);
-    foreach (ISelectable s in ss)
-    {
-      Debug.Log(s);
-      selectables.Add(s);
-    }
-    Debug.Log(selectables[0].OnSelect());
-
-    Debug.Log(Find<ISelectable>());
+  void Start()
+  {
+    selectables = Find<ISelectable>();
+    selected = new List<ISelectable>();
   }
 
-  public static List<T> Find<T>()
+  void Update()
+  {
+    if (Input.GetMouseButtonDown(0))
+    {
+      DeselectAll();
+      selected = ObjectsToSelect();
+      if (selected != null)
+      {
+        for (int i = 0; i < selected.Count; i++)
+        {
+          selected[i].OnSelect();
+        }
+      }
+    }
+  }
+
+  public List<T> Find<T>()
   {
     List<T> interfaces = new List<T>();
     GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
@@ -38,4 +47,31 @@ public class SelectionManager : MonoBehaviour {
     return interfaces;
   }
 
+  public List<ISelectable> ObjectsToSelect()
+  {
+    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    RaycastHit hit;
+
+    List<ISelectable> objectsHit = new List<ISelectable>();
+
+    if (Physics.Raycast(ray, out hit, 100))
+    {
+      objectsHit.Add(hit.transform.gameObject.GetComponent<ISelectable>());
+      for (int i = 0; i < objectsHit.Count; i++)
+      {
+        if (!selectables.Contains(objectsHit[i])) {
+          objectsHit.Remove(objectsHit[i]);
+        }
+      }
+    }
+    return objectsHit;
+  }
+
+  public void DeselectAll()
+  {
+    for (int i = 0; i < selectables.Count; i++)
+    {
+      selectables[i].OnDeselect();
+    }
+  }
 }

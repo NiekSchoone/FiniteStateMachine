@@ -6,7 +6,7 @@ public class Humanoid : MonoBehaviour, ISelectable
 {
 
   protected StackFSM brain;
-  protected Transform target;
+  protected Vector3 targetPosition;
   public Animator anims;
 
   [SerializeField]
@@ -14,15 +14,15 @@ public class Humanoid : MonoBehaviour, ISelectable
   [SerializeField]
   protected GameObject selectionMarker;
 
-  protected virtual void Start()
-  {    
+  protected virtual void Start() {    
     brain = new StackFSM();
+
+    targetPosition = transform.position;
 
     brain.PushState(Idle);
   }
 
-  protected virtual void Update()
-  {
+  protected virtual void Update() {
     brain.Update();
     fatigue += Time.fixedDeltaTime;
     if (fatigue >= 100) {
@@ -30,8 +30,7 @@ public class Humanoid : MonoBehaviour, ISelectable
     }
   }
 
-  protected void Idle()
-  {
+  protected void Idle() {
     fatigue -= Time.fixedDeltaTime * 2.5f;
 
     if(fatigue <= 0) {
@@ -39,31 +38,25 @@ public class Humanoid : MonoBehaviour, ISelectable
     }
   }
 
-  protected void Walk()
-  {
+  protected void Walk() {
     anims.SetBool("Walking", true);
-    transform.position = Vector3.MoveTowards(transform.position, target.position, 0.05f);
+    transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.05f);
 
-    Vector3 targetDir = target.position - transform.position;
+    Vector3 targetDir = targetPosition - transform.position;
     Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, 1, 0);
 
     transform.rotation = Quaternion.LookRotation(newDir);
 
-    if (InPosition())
-    {
+    if (InPosition()) {
       brain.PopState();
       anims.SetBool("Walking", false);
     }
   }
 
-  protected bool InPosition()
-  {
-    if (Vector3.Distance(transform.position, target.position) < 2)
-    {
+  protected bool InPosition() {
+    if (Vector3.Distance(transform.position, targetPosition) < 2) {
       return true;
-    }
-    else
-    {
+    } else {
       return false;
     }
   }
@@ -75,4 +68,11 @@ public class Humanoid : MonoBehaviour, ISelectable
   public void OnDeselect() {
     selectionMarker.SetActive(false);
   }
+
+  public Vector3 TargetPosition
+  {
+    get { return targetPosition; }
+    set { targetPosition = value; }
+  }
+
 }

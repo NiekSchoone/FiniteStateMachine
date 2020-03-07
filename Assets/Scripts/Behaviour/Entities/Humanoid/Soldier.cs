@@ -14,7 +14,6 @@ public class Soldier : Humanoid
     {
         base.Start();
         brain.PushState(Patrol);
-        target = patrollingCenter.transform;
     }
 
     // Update is called once per frame

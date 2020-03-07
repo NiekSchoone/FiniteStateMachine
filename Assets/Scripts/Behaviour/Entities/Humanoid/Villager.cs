@@ -30,7 +30,7 @@ public class Villager : Humanoid
     }
 
     void GatherResource() {
-        target = targetResource.transform;
+    targetPosition = targetResource.transform.position;
         if(!resource){
             resource = targetResource.GetComponent<Resource>();
         }
@@ -51,14 +51,14 @@ public class Villager : Humanoid
     }
 
     void DepositResource() {
-        target = storeHouse.transform;
+      targetPosition = storeHouse.transform.position;
 
-        if(!InPosition()) {
-            brain.PushState(Walk);
-            return;
-        }
-        resources[type] = 0;
-        brain.PopState();
+      if(!InPosition()) {
+          brain.PushState(Walk);
+          return;
+      }
+      resources[type] = 0;
+      brain.PopState();
     }
 
     void SetRole(VillagerRole _role) {
